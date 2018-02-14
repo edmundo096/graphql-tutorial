@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-test-utils": "^0.3.2",
+    "graphql": "^0.13.0",
+    "graphql-tools": "^2.21.0",
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",

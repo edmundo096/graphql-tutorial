@@ -6,12 +6,26 @@ import {
   graphql,
   ApolloProvider,
 } from 'react-apollo';
+import {
+  makeExecutableSchema,
+  addMockFunctionsToSchema
+} from 'graphql-tools';
+import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
+import { typeDefs } from './schema';
 
 import logo from './logo.svg';
 import './App.css';
 
+// Mocking
+const schema = makeExecutableSchema({ typeDefs });
+addMockFunctionsToSchema({ schema });
+const mockNetworkInterface = mockNetworkInterfaceWithSchema({ schema });
 
-const client = new ApolloClient();
+
+// Set up
+const client = new ApolloClient({
+  networkInterface: mockNetworkInterface,
+});
 
 const channelsListQuery = gql`
   query ChannelsListQuery {
@@ -22,6 +36,7 @@ const channelsListQuery = gql`
   }
 `;
 
+// Components
 const ChannelsList = ({data: {loading, error, channels}}) => {
   if (loading) {
     return <p>Loading ...</p>;
@@ -47,7 +62,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Welcome to Apollo</h1>
           </header>
-          <ChannelsList />
+          <ChannelsListWithData />
         </div>
       </ApolloProvider>
     );
