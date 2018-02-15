@@ -23,7 +23,7 @@ const ChannelsList = ({ data: {loading, error, channels }}) => {
   );
 };
 
-const channelsListQuery = gql`
+export const channelsListQuery = gql`
   query ChannelsListQuery {
     channels {
       id
