@@ -2,12 +2,20 @@
  * Created by Edmundo Elizondo on 2/15/2018.
  */
 import React from 'react';
+import { gql, graphql } from 'react-apollo';
 
-const AddChannel = () => {
+const AddChannel = ({ mutate }) => {
+
   const handleKeyUp = (evt) => {
     if (evt.keyCode === 13) {
-      console.log(evt.target.value);
-      evt.target.value = '';
+      evt.persist();
+
+      mutate({
+        variables: { name: evt.target.value }
+      })
+      .then( res => {
+        evt.target.value = '';
+      });
     }
   };
 
@@ -18,6 +26,18 @@ const AddChannel = () => {
       onKeyUp={handleKeyUp}
     />
   );
+
 };
 
-export default AddChannel;
+const addChannelMutation = gql`
+  mutation addChannel($name: String!) {
+    addChannel(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+const AddChannelWithMutation = graphql(addChannelMutation)(AddChannel);
+
+export default AddChannelWithMutation;
